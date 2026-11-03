@@ -1,0 +1,18 @@
+.gradle/
+build/
+local.properties
+.idea/
+*.iml
+.DS_Store
+
+# Secrets and credentials
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+key.properties
+secrets.properties
+
+# Local configuration
+local.properties

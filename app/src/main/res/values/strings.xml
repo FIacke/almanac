@@ -2,4 +2,8 @@
 <resources>
     <string name="app_name">Альманах</string>
     <string name="hello_text">Раздел в разработке</string>
+    <string name="contact_alexey">Алексей</string>
+    <string name="contact_maria">Мария</string>
+    <string name="contact_dmitry">Дмитрий</string>
+    <string name="last_message">Сообщение…</string>
 </resources>

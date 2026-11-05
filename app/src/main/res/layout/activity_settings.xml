@@ -1,105 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0E1621"
-    android:orientation="vertical">
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:paddingBottom="24dp">
 
-        <!-- Профиль -->
+        <!-- Шапка профиля -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:background="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true">
+            android:layout_height="wrap_content"
+            android:background="#17212B"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="24dp">
+
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/settings_profile"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="#5288C1"
+                android:gravity="center"
+                android:text="A"
                 android:textColor="#FFFFFF"
-                android:textSize="16sp" />
+                android:textSize="32sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Andriyan"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvProfileId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="ID: user_12345"
+                android:textColor="#8B9BA5"
+                android:textSize="14sp" />
         </LinearLayout>
 
-        <!-- Конфиденциальность -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"
+            android:text="ОСНОВНЫЕ"
+            android:textColor="#5288C1"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <!-- Пункт: Профиль -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="72dp"
+            android:layout_height="56dp"
+            android:background="?android:attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:background="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:clickable="true" android:focusable="true">
+            <ImageView
+                android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_profile" android:tint="#8B9BA5" />
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/settings_privacy"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp" />
+                android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                android:layout_marginStart="16dp" android:text="@string/settings_profile"
+                android:textColor="#FFFFFF" android:textSize="16sp" />
         </LinearLayout>
 
-        <!-- Уведомления -->
+        <!-- Пункт: Безопасность -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="72dp"
+            android:layout_height="56dp"
+            android:background="?android:attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:background="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:clickable="true" android:focusable="true">
+            <ImageView
+                android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_security" android:tint="#8B9BA5" />
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/settings_notifications"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp" />
+                android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                android:layout_marginStart="16dp" android:text="@string/settings_privacy"
+                android:textColor="#FFFFFF" android:textSize="16sp" />
         </LinearLayout>
 
-        <!-- Данные и память -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"
+            android:text="ПРИЛОЖЕНИЕ"
+            android:textColor="#5288C1"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <!-- Пункт: Уведомления -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="72dp"
+            android:layout_height="56dp"
+            android:background="?android:attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:background="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:clickable="true" android:focusable="true">
+            <ImageView
+                android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_notifications" android:tint="#8B9BA5" />
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/settings_storage"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp" />
+                android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                android:layout_marginStart="16dp" android:text="@string/settings_notifications"
+                android:textColor="#FFFFFF" android:textSize="16sp" />
         </LinearLayout>
 
-        <!-- О приложении -->
+        <!-- Пункт: Данные и память -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="72dp"
+            android:layout_height="56dp"
+            android:background="?android:attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:background="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:clickable="true" android:focusable="true">
+            <ImageView
+                android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_storage" android:tint="#8B9BA5" />
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/settings_about"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp" />
+                android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                android:layout_marginStart="16dp" android:text="@string/settings_storage"
+                android:textColor="#FFFFFF" android:textSize="16sp" />
         </LinearLayout>
 
     </LinearLayout>
-</LinearLayout>
+</ScrollView>

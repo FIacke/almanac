@@ -1,11 +1,13 @@
 package com.quietapps.almanac
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.Gravity
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -14,27 +16,67 @@ import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var chatsContainer: LinearLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val chatsContainer = findViewById<LinearLayout>(R.id.chatsContainer)
+        chatsContainer = findViewById(R.id.chatsContainer)
 
         addChatItem(chatsContainer, "Алексей", "А", "#607D8B", "Привет! Как дела?", "14:32", 2)
         addChatItem(chatsContainer, "Мария", "М", "#795548", "Скинь документы", "12:05", 0)
         addChatItem(chatsContainer, "Дмитрий", "Д", "#455A64", "Хорошо, договорились", "Вчера", 0)
 
         findViewById<ImageButton>(R.id.fabNewChat).setOnClickListener {
-            Toast.makeText(this, "Создание нового чата (скоро)", Toast.LENGTH_SHORT).show()
+            showNewChatDialog()
+        }
+
+        findViewById<LinearLayout>(R.id.navContacts).setOnClickListener {
+            startActivity(Intent(this, ContactsActivity::class.java))
         }
 
         findViewById<LinearLayout>(R.id.navSettings).setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
         }
+    }
 
-        findViewById<LinearLayout>(R.id.navContacts).setOnClickListener {
-            Toast.makeText(this, "Экран контактов в разработке", Toast.LENGTH_SHORT).show()
-        }
+    private fun showNewChatDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_new_chat, null)
+        val inputContact = dialogView.findViewById<EditText>(R.id.inputContact)
+
+        AlertDialog.Builder(this)
+            .setView(dialogView)
+            .create()
+            .apply {
+                // Делаем фон диалога прозрачным, чтобы был виден наш кастомный фон
+                window?.setBackgroundDrawableResource(android.R.color.transparent)
+                show()
+
+                dialogView.findViewById<android.widget.Button>(R.id.btnCancel).setOnClickListener {
+                    dismiss()
+                }
+
+                dialogView.findViewById<android.widget.Button>(R.id.btnCreate).setOnClickListener {
+                    val name = inputContact.text.toString().trim()
+                    if (name.isNotEmpty()) {
+                        // Добавляем новый чат в список
+                        val initial = name.first().toString().uppercase()
+                        val color = getRandomAvatarColor()
+                        addChatItem(chatsContainer, name, initial, color, "Новый чат", "Сейчас", 0)
+                        dismiss()
+                        // Сразу открываем чат
+                        openChat(name)
+                    } else {
+                        Toast.makeText(this@MainActivity, "Введите имя или ID", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+    }
+
+    private fun getRandomAvatarColor(): String {
+        val colors = listOf("#607D8B", "#795548", "#455A64", "#8E24AA", "#00897B", "#F4511E", "#3949AB")
+        return colors.random()
     }
 
     private fun addChatItem(

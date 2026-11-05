@@ -1,8 +1,15 @@
 package com.quietapps.almanac
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.Typeface
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.view.View
+import android.view.Gravity
+import android.widget.ImageButton
+import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -11,21 +18,77 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        findViewById<View>(R.id.chatAlexey).setOnClickListener {
-            openChat("Алексей")
+        val chatsContainer = findViewById<LinearLayout>(R.id.chatsContainer)
+
+        addChatItem(chatsContainer, "Алексей", "А", "#607D8B", "Привет! Как дела?", "14:32", 2)
+        addChatItem(chatsContainer, "Мария", "М", "#795548", "Скинь документы", "12:05", 0)
+        addChatItem(chatsContainer, "Дмитрий", "Д", "#455A64", "Хорошо, договорились", "Вчера", 0)
+
+        findViewById<ImageButton>(R.id.fabNewChat).setOnClickListener {
+            Toast.makeText(this, "Создание нового чата (скоро)", Toast.LENGTH_SHORT).show()
         }
-        findViewById<View>(R.id.chatMaria).setOnClickListener {
-            openChat("Мария")
+
+        findViewById<LinearLayout>(R.id.navSettings).setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
         }
-        findViewById<View>(R.id.chatDmitry).setOnClickListener {
-            openChat("Дмитрий")
+
+        findViewById<LinearLayout>(R.id.navContacts).setOnClickListener {
+            Toast.makeText(this, "Экран контактов в разработке", Toast.LENGTH_SHORT).show()
         }
     }
 
+    private fun addChatItem(
+        container: LinearLayout, name: String, initial: String, avatarColor: String,
+        lastMessage: String, time: String, unread: Int
+    ) {
+        val item = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            setPadding(dp(16), 0, dp(16), 0)
+            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dp(72))
+            isClickable = true
+            isFocusable = true
+        }
+
+        val avatar = TextView(this).apply {
+            text = initial; setTextColor(Color.WHITE); textSize = 20f; gravity = Gravity.CENTER
+            layoutParams = LinearLayout.LayoutParams(dp(48), dp(48))
+            background = GradientDrawable().apply {
+                shape = GradientDrawable.OVAL; setColor(Color.parseColor(avatarColor))
+            }
+        }
+        item.addView(avatar)
+
+        val center = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL; setPadding(dp(12), 0, dp(12), 0)
+            layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+        }
+        center.addView(TextView(this).apply { text = name; setTextColor(Color.WHITE); textSize = 16f; setTypeface(typeface, Typeface.BOLD) })
+        center.addView(TextView(this).apply { text = lastMessage; setTextColor(Color.parseColor("#8B9BA5")); textSize = 14f })
+        item.addView(center)
+
+        val right = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL; gravity = Gravity.END or Gravity.CENTER_VERTICAL
+        }
+        right.addView(TextView(this).apply { text = time; setTextColor(Color.parseColor("#8B9BA5")); textSize = 12f })
+        if (unread > 0) {
+            right.addView(TextView(this).apply {
+                text = unread.toString(); setTextColor(Color.WHITE); textSize = 10f; gravity = Gravity.CENTER; setTypeface(typeface, Typeface.BOLD)
+                val lp = LinearLayout.LayoutParams(dp(20), dp(20)); lp.topMargin = dp(4); layoutParams = lp
+                background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(Color.parseColor("#FF5252")) }
+            })
+        }
+        item.addView(right)
+
+        item.setOnClickListener { openChat(name) }
+        container.addView(item)
+    }
+
     private fun openChat(name: String) {
-        // Здесь больше нет Toast! Только переход на новый экран.
         val intent = Intent(this, ChatActivity::class.java)
         intent.putExtra("CONTACT_NAME", name)
         startActivity(intent)
     }
+
+    private fun dp(value: Int): Int = (value * resources.displayMetrics.density).toInt()
 }

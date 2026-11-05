@@ -2,173 +2,47 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#111214">
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="68dp"
-        android:gravity="center_vertical"
-        android:paddingStart="12dp"
-        android:paddingEnd="16dp"
-        android:background="#16181A">
-
-        <TextView
-            android:id="@+id/backButton"
-            android:layout_width="44dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="‹"
-            android:textColor="#F2F2F2"
-            android:textSize="36sp" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/contactName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Алексей"
-                android:textColor="#F2F2F2"
-                android:textSize="17sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="был недавно"
-                android:textColor="#85888C"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="44dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="☎"
-            android:textColor="#BFC1C4"
-            android:textSize="22sp" />
-
-        <TextView
-            android:layout_width="44dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="⋮"
-            android:textColor="#BFC1C4"
-            android:textSize="26sp" />
-    </LinearLayout>
-
+    <!-- Область для сообщений с прокруткой -->
     <ScrollView
+        android:id="@+id/messagesScroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:fillViewport="true"
-        android:padding="16dp">
+        android:fillViewport="true">
 
         <LinearLayout
+            android:id="@+id/messagesContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="24dp"
-                android:background="#202225"
-                android:padding="8dp"
-                android:text="Сегодня"
-                android:textColor="#85888C"
-                android:textSize="12sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginBottom="10dp"
-                android:background="#25272B"
-                android:padding="12dp"
-                android:text="Привет! Как дела?"
-                android:textColor="#F2F2F2"
-                android:textSize="15sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginBottom="10dp"
-                android:background="#34373B"
-                android:padding="12dp"
-                android:text="Всё хорошо. На связи."
-                android:textColor="#FFFFFF"
-                android:textSize="15sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginBottom="10dp"
-                android:background="#25272B"
-                android:padding="12dp"
-                android:text="Отлично. Отправил тебе файл."
-                android:textColor="#F2F2F2"
-                android:textSize="15sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:background="#34373B"
-                android:padding="12dp"
-                android:text="Получил, спасибо."
-                android:textColor="#FFFFFF"
-                android:textSize="15sp" />
-
-        </LinearLayout>
+            android:orientation="vertical"
+            android:padding="16dp" />
     </ScrollView>
 
+    <!-- Панель ввода снизу -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:gravity="center_vertical"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        android:background="#16181A">
-
-        <TextView
-            android:layout_width="40dp"
-            android:layout_height="48dp"
-            android:gravity="center"
-            android:text="+"
-            android:textColor="#BFC1C4"
-            android:textSize="28sp" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="#EEEEEE">
 
         <EditText
             android:id="@+id/messageInput"
             android:layout_width="0dp"
-            android:layout_height="46dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#25272B"
-            android:hint="Сообщение..."
-            android:paddingStart="14dp"
-            android:paddingEnd="14dp"
-            android:singleLine="true"
-            android:textColor="#F2F2F2"
-            android:textColorHint="#777A7E"
-            android:textSize="15sp" />
+            android:hint="Введите сообщение..."
+            android:inputType="textShortMessage|textMultiLine"
+            android:maxLines="4" />
 
-        <TextView
+        <Button
             android:id="@+id/sendButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:gravity="center"
-            android:text="➤"
-            android:textColor="#E4E5E7"
-            android:textSize="22sp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="Отпр." />
     </LinearLayout>
 
 </LinearLayout>

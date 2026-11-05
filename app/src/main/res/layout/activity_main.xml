@@ -2,9 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#111214">
 
-    <!-- Строка 1: Алексей -->
+    <!-- Алексей -->
     <LinearLayout
         android:id="@+id/chatAlexey"
         android:layout_width="match_parent"
@@ -20,7 +21,7 @@
         <TextView
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="#607D8B"
+            android:background="#454B52"
             android:gravity="center"
             android:text="А"
             android:textColor="#FFFFFF"
@@ -38,6 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/contact_alexey"
+                android:textColor="#F2F2F2"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -45,12 +47,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/last_message"
-                android:textSize="14sp"
-                android:textColor="#888888" />
+                android:textColor="#85888C"
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Строка 2: Мария -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#292C30" />
+
+    <!-- Мария -->
     <LinearLayout
         android:id="@+id/chatMaria"
         android:layout_width="match_parent"
@@ -66,7 +73,7 @@
         <TextView
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="#795548"
+            android:background="#55515A"
             android:gravity="center"
             android:text="М"
             android:textColor="#FFFFFF"
@@ -84,6 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/contact_maria"
+                android:textColor="#F2F2F2"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -91,12 +99,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/last_message"
-                android:textSize="14sp"
-                android:textColor="#888888" />
+                android:textColor="#85888C"
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Строка 3: Дмитрий -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#292C30" />
+
+    <!-- Дмитрий -->
     <LinearLayout
         android:id="@+id/chatDmitry"
         android:layout_width="match_parent"
@@ -112,7 +125,7 @@
         <TextView
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="#455A64"
+            android:background="#454F55"
             android:gravity="center"
             android:text="Д"
             android:textColor="#FFFFFF"
@@ -130,6 +143,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/contact_dmitry"
+                android:textColor="#F2F2F2"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -137,8 +151,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/last_message"
-                android:textSize="14sp"
-                android:textColor="#888888" />
+                android:textColor="#85888C"
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 

@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.Almanac" parent="Theme.AppCompat.Light.DarkActionBar" />
+    <!-- Тёмная тема с тёмным Action Bar -->
+    <style name="Theme.Almanac" parent="Theme.AppCompat">
+        <item name="colorPrimary">#1E1E1E</item>
+        <item name="colorPrimaryDark">#121212</item>
+        <item name="colorAccent">#2B5278</item>
+        <item name="android:windowBackground">#121212</item>
+    </style>
 </resources>

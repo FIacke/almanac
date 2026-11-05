@@ -1,8 +1,8 @@
 package com.quietapps.almanac
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -12,18 +12,20 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         findViewById<View>(R.id.chatAlexey).setOnClickListener {
-            onChatClicked("Алексей")
+            openChat("Алексей")
         }
         findViewById<View>(R.id.chatMaria).setOnClickListener {
-            onChatClicked("Мария")
+            openChat("Мария")
         }
         findViewById<View>(R.id.chatDmitry).setOnClickListener {
-            onChatClicked("Дмитрий")
+            openChat("Дмитрий")
         }
     }
 
-    private fun onChatClicked(name: String) {
-        Toast.makeText(this, "Чат: $name", Toast.LENGTH_SHORT).show()
-        // Позже: открыть экран конкретного чата, передать name/id
+    private fun openChat(name: String) {
+        // Здесь больше нет Toast! Только переход на новый экран.
+        val intent = Intent(this, ChatActivity::class.java)
+        intent.putExtra("CONTACT_NAME", name)
+        startActivity(intent)
     }
 }

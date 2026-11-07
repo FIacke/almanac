@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_profile"
+        android:title="Профиль" />
+    <item
+        android:id="@+id/action_search"
+        android:title="Поиск в чате" />
+    <item
+        android:id="@+id/action_clear"
+        android:title="Очистить историю" />
+    <item
+        android:id="@+id/action_block"
+        android:title="Заблокировать" />
+</menu>

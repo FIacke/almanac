@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#17212B"
+    android:orientation="vertical"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
+
+    <TextView
+        android:id="@+id/ctxPin"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="Закрепить чат"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true" android:focusable="true" />
+
+    <TextView
+        android:id="@+id/ctxMarkRead"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="Отметить прочитанным"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true" android:focusable="true" />
+
+    <TextView
+        android:id="@+id/ctxDelete"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="Удалить чат"
+        android:textColor="#FF5252"
+        android:textSize="16sp"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true" android:focusable="true" />
+
+</LinearLayout>

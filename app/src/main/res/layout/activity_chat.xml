@@ -34,8 +34,7 @@
             android:layout_height="40dp"
             android:src="@android:drawable/ic_menu_add"
             android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:tint="#8B9BA5"
-            android:contentDescription="Attach" />
+            android:tint="#8B9BA5" />
 
         <EditText
             android:id="@+id/messageInput"
@@ -56,12 +55,20 @@
             android:maxLines="5" />
 
         <ImageButton
+            android:id="@+id/micButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/ic_btn_speak_now"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:tint="#5288C1" />
+
+        <ImageButton
             android:id="@+id/sendButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@android:drawable/ic_menu_send"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:tint="#5288C1"
-            android:contentDescription="Send" />
+            android:visibility="gone" />
     </LinearLayout>
 </LinearLayout>

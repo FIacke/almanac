@@ -6,6 +6,8 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.View
 import android.widget.EditText
@@ -19,6 +21,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var chatsContainer: LinearLayout
     private lateinit var emptyState: View
+    private lateinit var searchInput: EditText
+    private val allChats = mutableListOf<Triple<String, String, String>>() 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,19 +30,34 @@ class MainActivity : AppCompatActivity() {
 
         chatsContainer = findViewById(R.id.chatsContainer)
         emptyState = findViewById(R.id.emptyState)
+        searchInput = findViewById(R.id.searchInput)
 
-        addChatItem(chatsContainer, "Алексей", "А", "#607D8B", "Привет! Как дела?", "14:32", 2)
-        addChatItem(chatsContainer, "Мария", "М", "#795548", "Скинь документы", "12:05", 0)
-        addChatItem(chatsContainer, "Дмитрий", "Д", "#455A64", "Хорошо, договорились", "Вчера", 0)
+        allChats.add(Triple("Алексей", "А", "#607D8B"))
+        allChats.add(Triple("Мария", "М", "#795548"))
+        allChats.add(Triple("Дмитрий", "Д", "#455A64"))
+
+        renderChats(allChats)
 
         findViewById<ImageButton>(R.id.fabNewChat).setOnClickListener { showNewChatDialog() }
         findViewById<LinearLayout>(R.id.navContacts).setOnClickListener { startActivity(Intent(this, ContactsActivity::class.java)) }
         findViewById<LinearLayout>(R.id.navSettings).setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
 
-        updateEmptyState()
+        searchInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val query = s.toString().lowercase()
+                val filtered = allChats.filter { it.first.lowercase().contains(query) }
+                renderChats(filtered)
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
     }
 
-    private fun updateEmptyState() {
+    private fun renderChats(chats: List<Triple<String, String, String>>) {
+        chatsContainer.removeAllViews()
+        for (chat in chats) {
+            addChatItem(chatsContainer, chat.first, chat.second, chat.third, "Привет! Как дела?", "14:32", 0)
+        }
         emptyState.visibility = if (chatsContainer.childCount == 0) View.VISIBLE else View.GONE
     }
 
@@ -54,12 +73,10 @@ class MainActivity : AppCompatActivity() {
                 if (name.isNotEmpty()) {
                     val initial = name.first().toString().uppercase()
                     val color = getRandomAvatarColor()
-                    addChatItem(chatsContainer, name, initial, color, "Новый чат", "Сейчас", 0)
-                    updateEmptyState()
+                    allChats.add(Triple(name, initial, color))
+                    renderChats(allChats)
                     dismiss()
                     openChat(name)
-                } else {
-                    Toast.makeText(this@MainActivity, "Введите имя", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -73,8 +90,7 @@ class MainActivity : AppCompatActivity() {
     private fun addChatItem(container: LinearLayout, name: String, initial: String, avatarColor: String, lastMessage: String, time: String, unread: Int) {
         val item = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setPadding(dp(16), 0, dp(16), 0)
-            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dp(72))
-            isClickable = true; isFocusable = true
+            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dp(72)); isClickable = true; isFocusable = true
         }
         val avatar = TextView(this).apply {
             text = initial; setTextColor(Color.WHITE); textSize = 20f; gravity = Gravity.CENTER
@@ -88,44 +104,9 @@ class MainActivity : AppCompatActivity() {
         item.addView(center)
         val right = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; gravity = Gravity.END or Gravity.CENTER_VERTICAL }
         right.addView(TextView(this).apply { text = time; setTextColor(Color.parseColor("#8B9BA5")); textSize = 12f })
-        if (unread > 0) {
-            right.addView(TextView(this).apply {
-                text = unread.toString(); setTextColor(Color.WHITE); textSize = 10f; gravity = Gravity.CENTER; setTypeface(typeface, Typeface.BOLD)
-                val lp = LinearLayout.LayoutParams(dp(20), dp(20)); lp.topMargin = dp(4); layoutParams = lp
-                background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(Color.parseColor("#FF5252")) }
-            })
-        }
         item.addView(right)
-
         item.setOnClickListener { openChat(name) }
-        item.setOnLongClickListener {
-            showChatContextMenu(item, name)
-            true
-        }
         container.addView(item)
-    }
-
-    private fun showChatContextMenu(item: View, name: String) {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_chat_context, null)
-        val dialog = AlertDialog.Builder(this, R.style.Theme_Almanac_Dialog)
-            .setView(dialogView).create()
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.show()
-
-        dialogView.findViewById<TextView>(R.id.ctxPin).setOnClickListener {
-            Toast.makeText(this, "Закреплён: $name", Toast.LENGTH_SHORT).show()
-            dialog.dismiss()
-        }
-        dialogView.findViewById<TextView>(R.id.ctxMarkRead).setOnClickListener {
-            Toast.makeText(this, "Отмечен прочитанным: $name", Toast.LENGTH_SHORT).show()
-            dialog.dismiss()
-        }
-        dialogView.findViewById<TextView>(R.id.ctxDelete).setOnClickListener {
-            chatsContainer.removeView(item)
-            updateEmptyState()
-            Toast.makeText(this, "Удалён: $name", Toast.LENGTH_SHORT).show()
-            dialog.dismiss()
-        }
     }
 
     private fun openChat(name: String) {

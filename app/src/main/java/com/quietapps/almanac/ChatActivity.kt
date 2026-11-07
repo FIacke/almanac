@@ -5,6 +5,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
@@ -18,6 +20,9 @@ class ChatActivity : AppCompatActivity() {
 
     private lateinit var messagesContainer: LinearLayout
     private lateinit var messagesScroll: ScrollView
+    private lateinit var input: EditText
+    private lateinit var sendButton: ImageButton
+    private lateinit var micButton: ImageButton
     private var contactName: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,12 +35,26 @@ class ChatActivity : AppCompatActivity() {
 
         messagesContainer = findViewById(R.id.messagesContainer)
         messagesScroll = findViewById(R.id.messagesScroll)
-
-        val input = findViewById<EditText>(R.id.messageInput)
-        val sendButton = findViewById<ImageButton>(R.id.sendButton)
+        input = findViewById(R.id.messageInput)
+        sendButton = findViewById(R.id.sendButton)
+        micButton = findViewById(R.id.micButton)
         val attachButton = findViewById<ImageButton>(R.id.attachButton)
 
         addMessage("Привет! Это тестовое сообщение из тёмного чата.", isOutgoing = false)
+
+        input.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s.toString().trim().isEmpty()) {
+                    sendButton.visibility = View.GONE
+                    micButton.visibility = View.VISIBLE
+                } else {
+                    sendButton.visibility = View.VISIBLE
+                    micButton.visibility = View.GONE
+                }
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
 
         sendButton.setOnClickListener {
             val text = input.text.toString().trim()
@@ -45,47 +64,29 @@ class ChatActivity : AppCompatActivity() {
             }
         }
 
+        micButton.setOnClickListener { Toast.makeText(this, "Запись голоса (скоро)", Toast.LENGTH_SHORT).show() }
         attachButton.setOnClickListener { showAttachmentsMenu() }
     }
 
     private fun showAttachmentsMenu() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_attachments, null)
-        val dialog = AlertDialog.Builder(this, R.style.Theme_Almanac_Dialog)
-            .setView(dialogView).create()
+        val dialog = AlertDialog.Builder(this, R.style.Theme_Almanac_Dialog).setView(dialogView).create()
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.show()
-
-        dialogView.findViewById<LinearLayout>(R.id.attachPhoto).setOnClickListener {
-            Toast.makeText(this, "Выбор фото (скоро)", Toast.LENGTH_SHORT).show()
-            dialog.dismiss()
-        }
-        dialogView.findViewById<LinearLayout>(R.id.attachFile).setOnClickListener {
-            Toast.makeText(this, "Выбор файла (скоро)", Toast.LENGTH_SHORT).show()
-            dialog.dismiss()
-        }
-        dialogView.findViewById<LinearLayout>(R.id.attachLocation).setOnClickListener {
-            Toast.makeText(this, "Отправка локации (скоро)", Toast.LENGTH_SHORT).show()
-            dialog.dismiss()
-        }
+        dialogView.findViewById<LinearLayout>(R.id.attachPhoto).setOnClickListener { Toast.makeText(this, "Фото (скоро)", Toast.LENGTH_SHORT).show(); dialog.dismiss() }
+        dialogView.findViewById<LinearLayout>(R.id.attachFile).setOnClickListener { Toast.makeText(this, "Файл (скоро)", Toast.LENGTH_SHORT).show(); dialog.dismiss() }
+        dialogView.findViewById<LinearLayout>(R.id.attachLocation).setOnClickListener { Toast.makeText(this, "Локация (скоро)", Toast.LENGTH_SHORT).show(); dialog.dismiss() }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.chat_menu, menu)
-        return true
-    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean { menuInflater.inflate(R.menu.chat_menu, menu); return true }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> { finish(); return true }
-            R.id.action_profile -> {
-                val intent = Intent(this, ProfileActivity::class.java)
-                intent.putExtra("PROFILE_NAME", contactName)
-                startActivity(intent)
-                return true
-            }
-            R.id.action_search -> { Toast.makeText(this, "Поиск в чате (скоро)", Toast.LENGTH_SHORT).show(); return true }
-            R.id.action_clear -> { messagesContainer.removeAllViews(); Toast.makeText(this, "История очищена", Toast.LENGTH_SHORT).show(); return true }
-            R.id.action_block -> { Toast.makeText(this, "Контакт заблокирован", Toast.LENGTH_SHORT).show(); return true }
+            R.id.action_profile -> { startActivity(Intent(this, ProfileActivity::class.java).putExtra("PROFILE_NAME", contactName)); return true }
+            R.id.action_search -> { Toast.makeText(this, "Поиск (скоро)", Toast.LENGTH_SHORT).show(); return true }
+            R.id.action_clear -> { messagesContainer.removeAllViews(); Toast.makeText(this, "Очищено", Toast.LENGTH_SHORT).show(); return true }
+            R.id.action_block -> { Toast.makeText(this, "Заблокирован", Toast.LENGTH_SHORT).show(); return true }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -93,34 +94,26 @@ class ChatActivity : AppCompatActivity() {
     private fun addMessage(text: String, isOutgoing: Boolean) {
         val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
         val currentTime = timeFormat.format(Date())
-
         val bubbleLayout = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = if (isOutgoing) Gravity.END else Gravity.START
-            val leftMargin = if (isOutgoing) 60 else 0
-            val rightMargin = if (isOutgoing) 0 else 60
             val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-            params.setMargins(leftMargin, 0, rightMargin, 12)
+            params.setMargins(if (isOutgoing) 60 else 0, 0, if (isOutgoing) 0 else 60, 12)
             params.gravity = if (isOutgoing) Gravity.END else Gravity.START
             layoutParams = params
         }
-
         val textView = TextView(this).apply {
             this.text = text; textSize = 16f; setTextColor(Color.WHITE); setPadding(24, 16, 24, 16)
-            val bgColor = if (isOutgoing) Color.parseColor("#2B5278") else Color.parseColor("#182533")
             background = GradientDrawable().apply {
-                setColor(bgColor); cornerRadius = 32f
+                setColor(if (isOutgoing) Color.parseColor("#2B5278") else Color.parseColor("#182533"))
                 if (isOutgoing) cornerRadii = floatArrayOf(32f, 32f, 32f, 32f, 32f, 32f, 0f, 0f)
                 else cornerRadii = floatArrayOf(32f, 32f, 32f, 32f, 0f, 0f, 32f, 32f)
             }
         }
-
         val timeView = TextView(this).apply {
-            this.text = currentTime; textSize = 11f
-            setTextColor(Color.parseColor("#8B9BA5"))
+            this.text = currentTime; textSize = 11f; setTextColor(Color.parseColor("#8B9BA5"))
             setPadding(8, 0, 16, 4); gravity = Gravity.BOTTOM
         }
-
         bubbleLayout.addView(textView)
         bubbleLayout.addView(timeView)
         messagesContainer.addView(bubbleLayout)

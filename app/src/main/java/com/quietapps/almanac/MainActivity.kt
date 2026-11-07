@@ -1,5 +1,6 @@
 package com.quietapps.almanac
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
@@ -9,12 +10,15 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -22,9 +26,24 @@ class MainActivity : AppCompatActivity() {
     private lateinit var chatsContainer: LinearLayout
     private lateinit var emptyState: View
     private lateinit var searchInput: EditText
-    private val allChats = mutableListOf<Triple<String, String, String>>() 
+    private val allChats = mutableListOf<Triple<String, String, String>>()
+
+    private val createGroupLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val name = result.data?.getStringExtra("GROUP_NAME") ?: return@registerForActivityResult
+            val color = getRandomAvatarColor()
+            allChats.add(Triple(name, "Г", color))
+            renderChats(allChats)
+            Toast.makeText(this, "Группа «$name» создана", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // читаем сохранённое имя из настроек
+        val prefs = getSharedPreferences("almanac", android.content.Context.MODE_PRIVATE)
+        prefs.getString("user_name", "Andriyan") // просто убеждаемся, что prefs доступны
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -35,7 +54,6 @@ class MainActivity : AppCompatActivity() {
         allChats.add(Triple("Алексей", "А", "#607D8B"))
         allChats.add(Triple("Мария", "М", "#795548"))
         allChats.add(Triple("Дмитрий", "Д", "#455A64"))
-
         renderChats(allChats)
 
         findViewById<ImageButton>(R.id.fabNewChat).setOnClickListener { showNewChatDialog() }
@@ -51,6 +69,25 @@ class MainActivity : AppCompatActivity() {
             }
             override fun afterTextChanged(s: Editable?) {}
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_create_group -> {
+                createGroupLauncher.launch(Intent(this, CreateGroupActivity::class.java))
+                true
+            }
+            R.id.menu_settings -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun renderChats(chats: List<Triple<String, String, String>>) {

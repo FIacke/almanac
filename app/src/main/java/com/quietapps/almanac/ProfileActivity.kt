@@ -31,7 +31,7 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         findViewById<LinearLayout>(R.id.btnCall).setOnClickListener {
-            Toast.makeText(this, "Звонок $name (скоро)", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, CallActivity::class.java).putExtra("CONTACT_NAME", name))
         }
 
         findViewById<LinearLayout>(R.id.btnBlock).setOnClickListener {

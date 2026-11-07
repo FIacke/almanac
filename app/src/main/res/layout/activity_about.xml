@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#0E1621" android:scrollbars="none">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="24dp">
+
+        <TextView android:layout_width="80dp" android:layout_height="80dp"
+            android:layout_gravity="center_horizontal" android:background="#5288C1"
+            android:gravity="center" android:text="A" android:textColor="#FFFFFF"
+            android:textSize="36sp" android:textStyle="bold" />
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" android:layout_marginTop="16dp"
+            android:text="Альманах" android:textColor="#FFFFFF"
+            android:textSize="24sp" android:textStyle="bold" />
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" android:layout_marginTop="4dp"
+            android:text="Версия 1.0" android:textColor="#8B9BA5" android:textSize="14sp" />
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="32dp" android:background="#17212B"
+            android:orientation="vertical" android:padding="16dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Приложение для защищённой связи. Все сообщения хранятся на сервере и синхронизируются между авторизованными устройствами."
+                android:textColor="#FFFFFF" android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/itemTerms"
+            android:layout_width="match_parent" android:layout_height="56dp"
+            android:layout_marginTop="16dp" android:background="?android:attr/selectableItemBackground"
+            android:gravity="center_vertical" android:orientation="horizontal"
+            android:paddingStart="16dp" android:paddingEnd="16dp"
+            android:clickable="true" android:focusable="true">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                android:layout_marginStart="16dp" android:text="Условия использования"
+                android:textColor="#FFFFFF" android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/itemPrivacyPolicy"
+            android:layout_width="match_parent" android:layout_height="56dp"
+            android:background="?android:attr/selectableItemBackground" android:gravity="center_vertical"
+            android:orientation="horizontal" android:paddingStart="16dp" android:paddingEnd="16dp"
+            android:clickable="true" android:focusable="true">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                android:layout_marginStart="16dp" android:text="Политика конфиденциальности"
+                android:textColor="#FFFFFF" android:textSize="16sp" />
+        </LinearLayout>
+
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="32dp" android:text="© 2026 Альманах"
+            android:textColor="#5D6D7C" android:textSize="12sp"
+            android:gravity="center" />
+    </LinearLayout>
+</ScrollView>

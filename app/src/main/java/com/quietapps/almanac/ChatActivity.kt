@@ -110,6 +110,7 @@ class ChatActivity : AppCompatActivity() {
         when (item.itemId) {
             android.R.id.home -> { finish(); return true }
             R.id.action_profile -> { startActivity(Intent(this, ProfileActivity::class.java).putExtra("PROFILE_NAME", contactName)); return true }
+            R.id.action_call -> { startActivity(Intent(this, CallActivity::class.java).putExtra("CONTACT_NAME", contactName)); return true }
             R.id.action_search -> { Toast.makeText(this, "Поиск (скоро)", Toast.LENGTH_SHORT).show(); return true }
             R.id.action_clear -> { messagesContainer.removeAllViews(); Toast.makeText(this, "Очищено", Toast.LENGTH_SHORT).show(); return true }
             R.id.action_block -> { Toast.makeText(this, "Заблокирован", Toast.LENGTH_SHORT).show(); return true }

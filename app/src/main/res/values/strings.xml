@@ -5,11 +5,11 @@
     <string name="nav_chats">Чаты</string>
     <string name="nav_contacts">Контакты</string>
     <string name="nav_settings">Настройки</string>
-    
-    <!-- Настройки -->
     <string name="settings_profile">Профиль</string>
-    <string name="settings_privacy">Конфиденциальность и безопасность</string>
-    <string name="settings_notifications">Уведомления</string>
+    <string name="settings_privacy">Конфиденциальность</string>
+    <string name="settings_notifications">Уведомления и звуки</string>
     <string name="settings_storage">Данные и память</string>
+    <string name="settings_language">Язык</string>
     <string name="settings_about">О приложении</string>
+    <string name="settings_logout">Выйти</string>
 </resources>

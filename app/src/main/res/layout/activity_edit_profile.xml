@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#0E1621" android:orientation="vertical" android:padding="24dp">
+
+    <TextView android:layout_width="80dp" android:layout_height="80dp"
+        android:layout_gravity="center_horizontal" android:background="#5288C1"
+        android:gravity="center" android:text="A" android:textColor="#FFFFFF"
+        android:textSize="32sp" android:textStyle="bold" />
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_marginTop="24dp" android:text="Имя"
+        android:textColor="#8B9BA5" android:textSize="14sp" />
+
+    <EditText android:id="@+id/editName"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" android:background="@drawable/bg_input_field"
+        android:hint="Ваше имя" android:inputType="text" android:padding="16dp"
+        android:textColor="#FFFFFF" android:textColorHint="#8B9BA5" android:textSize="16sp" />
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_marginTop="16dp" android:text="О себе"
+        android:textColor="#8B9BA5" android:textSize="14sp" />
+
+    <EditText android:id="@+id/editBio"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" android:background="@drawable/bg_input_field"
+        android:hint="Пара слов о вас" android:inputType="textMultiLine"
+        android:minLines="3" android:gravity="top" android:padding="16dp"
+        android:textColor="#FFFFFF" android:textColorHint="#8B9BA5" android:textSize="16sp" />
+
+    <Button android:id="@+id/btnSaveProfile"
+        android:layout_width="match_parent" android:layout_height="56dp"
+        android:layout_marginTop="32dp" android:background="#5288C1"
+        android:text="Сохранить" android:textColor="#FFFFFF"
+        android:textSize="16sp" android:textStyle="bold" />
+</LinearLayout>

@@ -1,6 +1,9 @@
 package com.quietapps.almanac
 
 import android.app.AlertDialog
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
@@ -78,6 +81,29 @@ class ChatActivity : AppCompatActivity() {
         dialogView.findViewById<LinearLayout>(R.id.attachLocation).setOnClickListener { Toast.makeText(this, "Локация (скоро)", Toast.LENGTH_SHORT).show(); dialog.dismiss() }
     }
 
+    private fun showMessageContextMenu(text: String, bubbleView: View) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_message_context, null)
+        val dialog = AlertDialog.Builder(this, R.style.Theme_Almanac_Dialog).setView(dialogView).create()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.show()
+
+        dialogView.findViewById<TextView>(R.id.msgCtxCopy).setOnClickListener {
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            clipboard.setPrimaryClip(ClipData.newPlainText("message", text))
+            Toast.makeText(this, "Скопировано", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+        dialogView.findViewById<TextView>(R.id.msgCtxReply).setOnClickListener {
+            input.setText("Ответ: $text")
+            input.setSelection(input.text.length)
+            dialog.dismiss()
+        }
+        dialogView.findViewById<TextView>(R.id.msgCtxDelete).setOnClickListener {
+            messagesContainer.removeView(bubbleView)
+            dialog.dismiss()
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean { menuInflater.inflate(R.menu.chat_menu, menu); return true }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -94,6 +120,7 @@ class ChatActivity : AppCompatActivity() {
     private fun addMessage(text: String, isOutgoing: Boolean) {
         val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
         val currentTime = timeFormat.format(Date())
+
         val bubbleLayout = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = if (isOutgoing) Gravity.END else Gravity.START
@@ -101,7 +128,13 @@ class ChatActivity : AppCompatActivity() {
             params.setMargins(if (isOutgoing) 60 else 0, 0, if (isOutgoing) 0 else 60, 12)
             params.gravity = if (isOutgoing) Gravity.END else Gravity.START
             layoutParams = params
+            
+            setOnLongClickListener {
+                showMessageContextMenu(text, this)
+                true
+            }
         }
+
         val textView = TextView(this).apply {
             this.text = text; textSize = 16f; setTextColor(Color.WHITE); setPadding(24, 16, 24, 16)
             background = GradientDrawable().apply {
@@ -110,12 +143,31 @@ class ChatActivity : AppCompatActivity() {
                 else cornerRadii = floatArrayOf(32f, 32f, 32f, 32f, 0f, 0f, 32f, 32f)
             }
         }
+
+        val timeLayout = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.BOTTOM
+            setPadding(8, 0, 16, 4)
+        }
+
         val timeView = TextView(this).apply {
             this.text = currentTime; textSize = 11f; setTextColor(Color.parseColor("#8B9BA5"))
-            setPadding(8, 0, 16, 4); gravity = Gravity.BOTTOM
         }
+        timeLayout.addView(timeView)
+
+        // Галочка для исходящих
+        if (isOutgoing) {
+            val checkView = TextView(this).apply {
+                this.text = "✓"
+                textSize = 12f
+                setTextColor(Color.parseColor("#8B9BA5"))
+                setPadding(6, 0, 0, 0)
+            }
+            timeLayout.addView(checkView)
+        }
+
         bubbleLayout.addView(textView)
-        bubbleLayout.addView(timeView)
+        bubbleLayout.addView(timeLayout)
         messagesContainer.addView(bubbleLayout)
         messagesScroll.post { messagesScroll.fullScroll(View.FOCUS_DOWN) }
     }
